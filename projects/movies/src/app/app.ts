@@ -1,12 +1,12 @@
 import { Component, inject, signal } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { AvatarComponent } from "@gacc/ui-kit/avatar";
-import { BadgeComponent } from "@gacc/ui-kit/badge";
-import { ButtonComponent } from "@gacc/ui-kit/button";
-import { CardComponent } from "@gacc/ui-kit/card";
-import { DialogService } from "@gacc/ui-kit/dialog";
-import { InputComponent } from "@gacc/ui-kit/input";
-import { SpinnerComponent } from "@gacc/ui-kit/spinner";
+import { AvatarComponent } from "@gacc/ui-kit/components/avatar";
+import { BadgeComponent } from "@gacc/ui-kit/components/badge";
+import { ButtonComponent } from "@gacc/ui-kit/components/button";
+import { CardComponent } from "@gacc/ui-kit/components/card";
+import { DialogService } from "@gacc/ui-kit/components/dialog";
+import { InputComponent } from "@gacc/ui-kit/components/input";
+import { SpinnerComponent } from "@gacc/ui-kit/components/spinner";
 import { ExampleDialogComponent } from "./example-dialog/example-dialog.component";
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, inject } from "@angular/core";
-import { ButtonComponent } from "@gacc/ui-kit/button";
-import { DIALOG_DATA, DialogRef } from "@gacc/ui-kit/dialog";
+import { ButtonComponent } from "@gacc/ui-kit/components/button";
+import { DIALOG_DATA, DialogRef } from "@gacc/ui-kit/components/dialog";
 
 @Component({
 	selector: "app-example-dialog",
@@ -21,8 +21,8 @@ import { DIALOG_DATA, DialogRef } from "@gacc/ui-kit/dialog";
     </p>
 
     <div class="actions">
-      <button gaccButton variant="outline" (click)="closeDialog(false)">Cancelar</button>
-      <button gaccButton variant="primary" (click)="closeDialog(true)">Aceptar</button>
+      <gacc-button variant="outline" (click)="closeDialog(false)">Cancelar</gacc-button>
+      <gacc-button variant="primary" (click)="closeDialog(true)">Aceptar</gacc-button>
     </div>
   `,
 })
