@@ -1,0 +1,53 @@
+@if (config.gaccClosable || config.gaccClosable === undefined) {
+    <button
+      type="button"
+      data-testid="gacc-close-header-button"
+      class="gacc-dialog__close"
+      (click)="onCloseClick()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+      </svg>
+    </button>
+  }
+
+  @if (config.gaccTitle || config.gaccDescription) {
+    <header class="gacc-dialog__header">
+      @if (config.gaccTitle) {
+        <h4 data-testid="gacc-title" class="gacc-dialog__title">{{ config.gaccTitle }}</h4>
+
+        @if (config.gaccDescription) {
+          <p data-testid="gacc-description" class="gacc-dialog__description">{{ config.gaccDescription }}</p>
+        }
+      }
+    </header>
+  }
+
+  <main class="gacc-dialog__main">
+    <ng-template cdkPortalOutlet></ng-template>
+
+    @if (isStringContent) {
+      <div data-testid="gacc-content" [innerHTML]="config.gaccContent"></div>
+    }
+  </main>
+
+  @if (!config.gaccHideFooter) {
+    <footer class="gacc-dialog__footer">
+      @if (config.gaccCancelText !== null) {
+        <gacc-button variant="outline" data-testid="gacc-cancel-button" (clicked)="onCloseClick()">
+          {{ config.gaccCancelText ?? 'Cancel' }}
+        </gacc-button>
+      }
+
+      @if (config.gaccOkText !== null) {
+        <gacc-button
+          data-testid="gacc-ok-button"
+          [variant]="config.gaccOkDestructive ? 'danger' : 'primary'"
+          [disabled]="config.gaccOkDisabled || false"
+          (clicked)="onOkClick()"
+        >
+          {{ config.gaccOkText ?? 'OK' }}
+        </gacc-button>
+      }
+    </footer>
+  }

@@ -1,6 +1,15 @@
-import { Component, inject } from "@angular/core";
+import {
+	Component,
+	inject,
+	inputBinding,
+	outputBinding,
+	signal,
+	type Type,
+	twoWayBinding,
+	ViewContainerRef,
+} from "@angular/core";
 import { ButtonComponent } from "@gacc/ui-kit/components/button";
-import { DIALOG_DATA, DialogRef } from "@gacc/ui-kit/components/dialog";
+import { GACC_MODAL_DATA, GaccDialogRef } from "@gacc/ui-kit/components/dialog";
 
 @Component({
 	selector: "app-example-dialog",
@@ -8,27 +17,29 @@ import { DIALOG_DATA, DialogRef } from "@gacc/ui-kit/components/dialog";
 	imports: [ButtonComponent],
 	styles: [
 		`
-        h2 { margin-top: 0; }
         p { color: #555; line-height: 1.5; margin-bottom: 24px; }
         .actions { display: flex; gap: 8px; justify-content: flex-end; }
         `,
 	],
 	template: `
-    <h2>Dialog Example</h2>
     <p>
-      Este es un ejemplo de contenido dinámico insertado en el diálogo.
-      Los datos recibidos son: <strong>{{ data?.message }}</strong>
+      Este es un ejemplo de contenido dinámico insertado de forma pura en el diálogo, actuando ajeno al header y footer administrado por el GaccDialogComponent.
+      <br/><br/>
+      Los datos recibidos por inyección son: <strong>{{ data?.message }}</strong>
     </p>
 
     <div class="actions">
-      <gacc-button variant="outline" (click)="closeDialog(false)">Cancelar</gacc-button>
-      <gacc-button variant="primary" (click)="closeDialog(true)">Aceptar</gacc-button>
+      <!-- Example usage of programmatic inner override functionality if the default footer is disabled -->
+      <gacc-button variant="outline" (clicked)="closeDialog(false)">Rechazar Interno</gacc-button>
     </div>
   `,
 })
 export class ExampleDialogComponent {
-	data = inject<{ message: string }>(DIALOG_DATA, { optional: true });
-	private dialogRef = inject(DialogRef<boolean>);
+	data = inject<{ message: string }>(GACC_MODAL_DATA, { optional: true });
+	private dialogRef = inject(GaccDialogRef);
+
+	private vcf = inject(ViewContainerRef);
+	private component!: Type<any>;
 
 	closeDialog(result: boolean) {
 		this.dialogRef.close(result);

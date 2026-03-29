@@ -4,7 +4,7 @@ import { AvatarComponent } from "@gacc/ui-kit/components/avatar";
 import { BadgeComponent } from "@gacc/ui-kit/components/badge";
 import { ButtonComponent } from "@gacc/ui-kit/components/button";
 import { CardComponent } from "@gacc/ui-kit/components/card";
-import { DialogService } from "@gacc/ui-kit/components/dialog";
+import { GaccDialogService } from "@gacc/ui-kit/components/dialog";
 import { InputComponent } from "@gacc/ui-kit/components/input";
 import { SpinnerComponent } from "@gacc/ui-kit/components/spinner";
 import { ExampleDialogComponent } from "./example-dialog/example-dialog.component";
@@ -25,22 +25,36 @@ import { ExampleDialogComponent } from "./example-dialog/example-dialog.componen
 })
 export class App {
 	protected readonly title = signal("movies");
-	private readonly dialogService = inject(DialogService);
+	private readonly dialogService = inject(GaccDialogService);
 
 	clickedBtn(msg: string) {
 		console.log("Button clicked: ", msg);
 	}
 
 	openDialog() {
-		const dialogRef = this.dialogService.open(ExampleDialogComponent, {
-			data: { message: "¡Hola desde DialogService!" },
-			width: "600px",
-			disableClose: true,
-			panelClass: "custom-dialog",
-		});
-
-		dialogRef.afterClosed().subscribe((result) => {
-			console.log("Diálogo cerrado, resultado:", result);
+		this.dialogService.create({
+			gaccContent: ExampleDialogComponent,
+			gaccTitle: "Dialog Example",
+			gaccDescription:
+				"Este es el subtitulo administrado directamente por la nueva configuración",
+			gaccData: { message: "¡Hola desde GaccDialogService!" },
+			gaccWidth: "600px",
+			gaccClosable: true,
+			gaccMaskClosable: false,
+			gaccCustomClasses: "custom-dialog",
+			gaccCancelText: "Cancelar Acción",
+			gaccOkText: "Continuar",
+			gaccOkDestructive: true,
+			gaccOnOk: ({ dialogRef }: any) => {
+				console.log("Dialog Ok Callback Fired", {
+					result: dialogRef.componentInstance,
+				});
+			},
+			gaccOnCancel: ({ dialogRef }: any) => {
+				console.log("Dialog Cancel Callback Fired", {
+					result: dialogRef.componentInstance,
+				});
+			},
 		});
 	}
 }

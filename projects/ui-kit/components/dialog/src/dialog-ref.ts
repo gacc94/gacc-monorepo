@@ -1,56 +1,115 @@
 import type { OverlayRef } from "@angular/cdk/overlay";
-import { type Observable, Subject } from "rxjs";
+import { isPlatformBrowser } from "@angular/common";
+import { EventEmitter, Inject, PLATFORM_ID } from "@angular/core";
+import { filter, fromEvent, Subject, takeUntil } from "rxjs";
+import type { GaccDialogComponent } from "./dialog.component";
+import type { GaccDialogOptions } from "./dialog-options";
 
-/**
- * Controls a currently open dialog.
- * Provided as an injectable (`DialogRef`) inside the deployed component.
- * `@typeParam R` Type of the response data to return when closed.
- */
-export class DialogRef<R = unknown> {
-	/** Emits the result when the modal component explicitly invokes `close()`. */
-	private readonly _afterClosed = new Subject<R | undefined>();
+const enum eTriggerAction {
+	CANCEL = "cancel",
+	OK = "ok",
+}
+
+export class GaccDialogRef<T = any, R = any, U = any> {
+	private destroy$ = new Subject<void>();
+	private isClosing = false;
+	protected result?: R;
+	componentInstance: T | null = null;
 
 	constructor(
 		private overlayRef: OverlayRef,
-		public readonly id: string,
-	) {}
+		private config: GaccDialogOptions<T, U>,
+		private containerInstance: GaccDialogComponent<T, U>,
+		private platformId: object,
+	) {
+		this.containerInstance.cancelTriggered.subscribe(() =>
+			this.trigger(eTriggerAction.CANCEL),
+		);
+		this.containerInstance.okTriggered.subscribe(() =>
+			this.trigger(eTriggerAction.OK),
+		);
 
-	/**
-	 * Closes the dialog and optionally returns a result.
-	 * Internally triggers the close animation before unmounting the Overlay.
-	 * @param result Optional response useful for whoever opened the dialog.
-	 */
-	close(result?: R): void {
-		// To support exit animations (fade-out), we need a mechanism
-		// that decouples a real 'close' from the Overlay, but we integrate it cleanly
-		// here by delegating unmounting to the container.
-		//
-		// We will start by just completing the subject and delegating the container to react to this.
-		this._afterClosed.next(result);
-		this._afterClosed.complete();
-
-		// ARCHITECTURE NOTE: In real life, we inform the container to start exiting.
-		// As a robust simplification, we will notify here, but the logic of
-		// deferred destruction of the overlay will depend on the container through the overlayRef.
-	}
-
-	/**
-	 * Observable that notifies when the modal has been completely dismantled
-	 * and the overlay closed.
-	 */
-	afterClosed(): Observable<R | undefined> {
-		return this._afterClosed.asObservable();
-	}
-
-	/**
-	 * Grants exposed access to the method of discarding the overlay directly from the container.
-	 * Avoid using directly in visual components.
-	 * @internal
-	 */
-	destroyOverlay(): void {
-		if (this.overlayRef.hasAttached()) {
-			this.overlayRef.detach();
+		if (
+			(this.config.gaccMaskClosable ?? true) &&
+			isPlatformBrowser(this.platformId)
+		) {
+			this.overlayRef
+				.backdropClick()
+				.pipe(takeUntil(this.destroy$))
+				.subscribe(() => this.close());
 		}
-		this.overlayRef.dispose();
+
+		if (isPlatformBrowser(this.platformId)) {
+			fromEvent<KeyboardEvent>(document, "keydown")
+				.pipe(
+					filter((event) => event.key === "Escape"),
+					takeUntil(this.destroy$),
+				)
+				.subscribe(() => {
+					if (this.config.gaccClosable ?? true) {
+						this.close();
+					}
+				});
+		}
+	}
+
+	close(result?: R) {
+		if (this.isClosing) {
+			return;
+		}
+
+		this.isClosing = true;
+		this.result = result;
+
+		if (isPlatformBrowser(this.platformId)) {
+			const hostElement = this.containerInstance.getNativeElement();
+			hostElement.classList.add("dialog-leave");
+		}
+
+		// Wait for the native CSS transition to complete
+		setTimeout(() => {
+			if (this.overlayRef) {
+				if (this.overlayRef.hasAttached()) {
+					this.overlayRef.detachBackdrop();
+				}
+				this.overlayRef.dispose();
+			}
+
+			if (!this.destroy$.closed) {
+				this.destroy$.next();
+				this.destroy$.complete();
+			}
+		}, 150);
+	}
+
+	// Use the native RxJS afterClosed pattern if needed manually
+	afterClosed() {
+		return this.destroy$.asObservable();
+	}
+
+	private trigger(action: eTriggerAction) {
+		const trigger = {
+			ok: this.config.gaccOnOk,
+			cancel: this.config.gaccOnCancel,
+		}[action];
+
+		if (trigger instanceof EventEmitter) {
+			trigger.emit(this.getContentComponent());
+		} else if (typeof trigger === "function") {
+			const result = trigger(this.getContentComponent()) as R;
+			this.closeWithResult(result);
+		} else {
+			this.close();
+		}
+	}
+
+	private getContentComponent(): T {
+		return this.componentInstance as T;
+	}
+
+	private closeWithResult(result: R): void {
+		if (result !== false) {
+			this.close(result);
+		}
 	}
 }
