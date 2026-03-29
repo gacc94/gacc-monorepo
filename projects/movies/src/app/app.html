@@ -15,7 +15,7 @@
         >
             <gacc-avatar name="Gustavo Caqui"></gacc-avatar>
             <gacc-badge variant="success" text="Online"></gacc-badge>
-            <gacc-spinner size="lg"></gacc-spinner>
+            <gacc-spinner size="lg" />
         </div>
         <div>
             <gacc-input label="Búsqueda" placeholder="Buscar película..."></gacc-input>
@@ -23,6 +23,11 @@
     </section>
 
     <section class="demo-section">
+        <h2>Prueba de Modales</h2>
+        <div class="actions-grid" style="margin-bottom: 2rem">
+            <gacc-button text="Abrir Diálogo" variant="primary" (clicked)="openDialog()"></gacc-button>
+        </div>
+
         <h2>Prueba de Botones</h2>
         <div class="actions-grid">
             <gacc-button
