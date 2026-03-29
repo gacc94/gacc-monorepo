@@ -15,7 +15,8 @@
         "target": "ES2022",
         "module": "preserve",
         "paths": {
-            "ui-kit": ["./dist/ui-kit"]
+            "@gacc/ui-kit": ["./projects/ui-kit/src/public-api.ts"],
+            "@gacc/ui-kit/*": ["./projects/ui-kit/*/public-api.ts"]
         }
     },
     "angularCompilerOptions": {

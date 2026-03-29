@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
-    selector: 'ui-button',
-    standalone: true,
+    selector: 'gacc-button',
     template: `
         <button
-            class="ui-button"
-            [class.ui-button--primary]="variant() === 'primary'"
-            [class.ui-button--secondary]="variant() === 'secondary'"
-            [class.ui-button--danger]="variant() === 'danger'"
-            [class.ui-button--outline]="variant() === 'outline'"
-            [class.ui-button--full-width]="fullWidth()"
+            class="gacc-button"
+            [class.gacc-button--primary]="variant() === 'primary'"
+            [class.gacc-button--secondary]="variant() === 'secondary'"
+            [class.gacc-button--danger]="variant() === 'danger'"
+            [class.gacc-button--outline]="variant() === 'outline'"
+            [class.gacc-button--full-width]="fullWidth()"
             [disabled]="disabled()"
             (click)="clicked.emit($event)"
         >
@@ -20,7 +19,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
             }
         </button>
     `,
-    styleUrl: './button.scss',
+    styleUrl: './button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {

@@ -2,54 +2,74 @@
     <header>
         <h1>🎬 Movies App</h1>
         <p>
-            Bienvenido a la aplicación de demostración implementando el <b>ui-kit</b> en Hexagonal.
+            Bienvenido a la aplicación de demostración implementando el <b>@gacc/ui-kit</b> en
+            Hexagonal.
         </p>
     </header>
 
     <section class="demo-section">
+        <h2>Nuevos Componentes</h2>
+        <div
+            class="actions-grid"
+            style="display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem"
+        >
+            <gacc-avatar name="Gustavo Caqui"></gacc-avatar>
+            <gacc-badge variant="success" text="Online"></gacc-badge>
+            <gacc-spinner size="lg"></gacc-spinner>
+        </div>
+        <div>
+            <gacc-input label="Búsqueda" placeholder="Buscar película..."></gacc-input>
+        </div>
+    </section>
+
+    <section class="demo-section">
         <h2>Prueba de Botones</h2>
         <div class="actions-grid">
-            <ui-button
+            <gacc-button
                 text="Botón Primario"
                 variant="primary"
                 (clicked)="clickedBtn('Primary!')"
-            ></ui-button>
-            <ui-button text="Botón Secundario" variant="secondary">
+            ></gacc-button>
+            <gacc-button text="Botón Secundario" variant="secondary">
                 <h3>XD</h3>
-            </ui-button>
-            <ui-button text="Botón Peligro" variant="danger"></ui-button>
-            <ui-button text="Botón Contorno" variant="outline"></ui-button>
-            <ui-button text="Botón Deshabilitado" [disabled]="true"></ui-button>
+            </gacc-button>
+            <gacc-button text="Botón Peligro" variant="danger"></gacc-button>
+            <gacc-button text="Botón Contorno" variant="outline"></gacc-button>
+            <gacc-button text="Botón Deshabilitado" [disabled]="true"></gacc-button>
         </div>
     </section>
 
     <section class="demo-section">
         <h2>Prueba de Cards</h2>
         <div class="cards-grid">
-            <ui-card title="Película Destacada" subtitle="Inception (2010)">
+            <gacc-card title="Película Destacada" subtitle="Inception (2010)">
                 <p>
                     Un ladrón que roba secretos corporativos mediante el uso de la tecnología de
                     compartir sueños tiene la tarea inversa de plantar una idea en la mente de un
                     CEO.
                 </p>
                 <div style="margin-top: 1rem">
-                    <ui-button text="Ver Detalles" variant="primary" [fullWidth]="true"></ui-button>
+                    <gacc-button
+                        text="Ver Detalles"
+                        variant="primary"
+                        [fullWidth]="true"
+                    ></gacc-button>
                 </div>
-            </ui-card>
+            </gacc-card>
 
-            <ui-card title="Interstellar" subtitle="Ciencia Ficción">
+            <gacc-card title="Interstellar" subtitle="Ciencia Ficción">
                 <p>
                     Un equipo de exploradores viaja a través de un agujero de gusano en el espacio
                     en un intento por asegurar la supervivencia de la humanidad.
                 </p>
                 <div style="margin-top: 1rem">
-                    <ui-button
+                    <gacc-button
                         text="Ver Detalles"
                         variant="secondary"
                         [fullWidth]="true"
-                    ></ui-button>
+                    ></gacc-button>
                 </div>
-            </ui-card>
+            </gacc-card>
         </div>
     </section>
 </main>

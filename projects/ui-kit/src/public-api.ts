@@ -1,6 +1,2 @@
-/*
- * Public API Surface of ui-kit
- */
-
-export * from './lib/button/button';
-export * from './lib/card/card';
+// @gacc/ui-kit global entrypoint space
+export const UI_KIT_VERSION = '0.0.1';
