@@ -34,7 +34,7 @@
   @if (!config.gaccHideFooter) {
     <footer class="gacc-dialog__footer">
       @if (config.gaccCancelText !== null) {
-        <gacc-button variant="outline" data-testid="gacc-cancel-button" (clicked)="onCloseClick()">
+        <gacc-button tier="secondary" data-testid="gacc-cancel-button" (ctrlClick)="onCloseClick()">
           {{ config.gaccCancelText ?? 'Cancel' }}
         </gacc-button>
       }
@@ -42,9 +42,9 @@
       @if (config.gaccOkText !== null) {
         <gacc-button
           data-testid="gacc-ok-button"
-          [variant]="config.gaccOkDestructive ? 'danger' : 'primary'"
+          [tier]="config.gaccOkDestructive ? 'secondary' : 'primary'"
           [disabled]="config.gaccOkDisabled || false"
-          (clicked)="onOkClick()"
+          (ctrlClick)="onOkClick()"
         >
           {{ config.gaccOkText ?? 'OK' }}
         </gacc-button>

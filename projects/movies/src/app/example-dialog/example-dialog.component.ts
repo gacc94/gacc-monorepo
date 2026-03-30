@@ -1,15 +1,9 @@
-import {
-	Component,
-	inject,
-	inputBinding,
-	outputBinding,
-	signal,
-	type Type,
-	twoWayBinding,
-	ViewContainerRef,
-} from "@angular/core";
+import { Component, inject, type Type, ViewContainerRef } from "@angular/core";
 import { ButtonComponent } from "@gacc/ui-kit/components/button";
-import { GACC_MODAL_DATA, GaccDialogRef } from "@gacc/ui-kit/components/dialog";
+import {
+	GACC_MODAL_DATA,
+	GaccDialogRef,
+} from "@gacc/ui-kit/components/dialog/";
 
 @Component({
 	selector: "app-example-dialog",
