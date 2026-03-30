@@ -1,0 +1,47 @@
+<bcp-modal
+  #modalElement
+  [class]="this.bcpClasses()"
+  [attr.size]="this.config.size || 'md'"
+  [attr.height]="this.config.height"
+  [attr.width]="this.config.width"
+  [attr.ignore-backdrop-click]="this.config.ignoreBackdropClick ?? false"
+  [attr.responsive-full-screen]="this.config.responsiveFullScreen ?? false"
+  [attr.should-inert-body]="this.config.shouldInertBody ?? false"
+  [accessibleConfig]="this.config.accessibleConfig"
+  [attr.is-open]="this.isOpen()"
+  (ctrlCloseModal)="this.onWebComponentClosed()"
+>
+  @if (this.config.title) {
+    <bcp-modal-header
+      [attr.show-close-icon]="this.config.headerShowCloseIcon ?? true"
+      [accessibleConfig]="this.config.headerAccessibleConfig"
+    >
+      <h3
+        bcp-title
+        [id]="this.config.accessibleConfig?.containerAriaLabelledby || 'gacc-modal-title'"
+        [innerHTML]="this.config.title"
+      ></h3>
+    </bcp-modal-header>
+  }
+
+  <bcp-modal-body
+    [id]="this.config.accessibleConfig?.containerAriaDescribedby || 'gacc-modal-desc'"
+  >
+    @if (this.config.description) {
+      <p class="gacc-dialog-bcp__description" [innerHTML]="this.config.description"></p>
+    }
+    <!-- Content rendering anchor inside the web component body -->
+    <ng-container #viewContainer></ng-container>
+  </bcp-modal-body>
+
+  @if (this.config.okText || this.config.cancelText) {
+    <bcp-modal-footer>
+      @if (this.config.cancelText) {
+        <bcp-button variant="secondary" (click)="this.onCancelClick()" [innerHTML]="this.config.cancelText"></bcp-button>
+      }
+      @if (this.config.okText) {
+        <bcp-button variant="primary" (click)="this.onOkClick()" [innerHTML]="this.config.okText"></bcp-button>
+      }
+    </bcp-modal-footer>
+  }
+</bcp-modal>

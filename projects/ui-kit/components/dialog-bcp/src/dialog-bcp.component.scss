@@ -1,0 +1,7 @@
+.gacc-dialog-bcp {
+  &__description {
+    // Style bindings here matching standard BCP tokens if any
+    margin-bottom: 1rem;
+    color: var(--bcp-color-text-body, inherit);
+  }
+}
