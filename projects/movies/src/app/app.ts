@@ -7,6 +7,7 @@ import { CardComponent } from "@gacc/ui-kit/components/card";
 import { GaccDialogService } from "@gacc/ui-kit/components/dialog";
 import { InputComponent } from "@gacc/ui-kit/components/input";
 import { SpinnerComponent } from "@gacc/ui-kit/components/spinner";
+import { FormComponent } from "@gacc/ui-kit/components/form";
 import { ExampleDialogComponent } from "./example-dialog/example-dialog.component";
 
 @Component({
@@ -19,6 +20,7 @@ import { ExampleDialogComponent } from "./example-dialog/example-dialog.componen
 		AvatarComponent,
 		BadgeComponent,
 		SpinnerComponent,
+		FormComponent,
 	],
 	templateUrl: "./app.html",
 	styleUrl: "./app.scss",
@@ -29,6 +31,11 @@ export class App {
 
 	clickedBtn(msg: string) {
 		console.log("Button clicked: ", msg);
+	}
+
+	onFormSubmit(data: any) {
+		console.log("Form submitted: ", data);
+		alert(`Form submitted with email: ${data.email}`);
 	}
 
 	openDialog() {
