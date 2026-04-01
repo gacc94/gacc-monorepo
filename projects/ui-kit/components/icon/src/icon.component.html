@@ -1,0 +1,10 @@
+<bcp-icon
+  [attr.name]="name()"
+  [attr.color]="color()"
+  [attr.size]="size()"
+  [attr.size-unit]="'px'"
+  [attr.accessible-config]="accessible()"
+  (ctrlIconDidLoad)="loaded.emit()"
+  class="gacc-icon"
+  [ngClass]="[sizeClass, colorClass]"
+></bcp-icon>

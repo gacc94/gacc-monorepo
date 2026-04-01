@@ -1,0 +1,20 @@
+.gacc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // size modifiers
+  @each $size in (16, 24, 32, 48) {
+    &--size-#{$size} {
+      width: #{$size}px;
+      height: #{$size}px;
+    }
+  }
+
+  // color modifiers using design tokens
+  @each $token in (primary-500, secondary-700, neutral-800) {
+    &--color-#{$token} {
+      color: var(--#{$token});
+    }
+  }
+}
